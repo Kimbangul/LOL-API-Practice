@@ -1,19 +1,26 @@
 'use client'
 
+import { useState, useEffect } from "react";
 import client from "@/app/axios/client";
 import HomeView from "@/components/home/HomeView";
+import { AxiosResponse } from "axios";
 
 const HomeContainer = () => {
 
-  const summonerName ='헤비메탈 아이돌';
-  
-  // const summonerInfo = client.get(`/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=
-  // `);
-  const dummy = client.get(`/api/account`);
-  console.log(dummy);
+
+  // PARAM state
+  const [inputName, setInputName] = useState('');
+  const [data, setData] = useState<null|AxiosResponse<any,any>>(null);
+
+  // FUNCTION search info
+  const getSummonerInfo = async () => {
+    const summonerInfo = await client.get(`/api/account`);
+    console.log(summonerInfo);
+    setData(summonerInfo);
+  }
 
   return(
-    <HomeView />
+    <HomeView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
   )
 }
 
