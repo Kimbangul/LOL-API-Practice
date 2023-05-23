@@ -4,16 +4,16 @@ class AxiosClient {
   client: AxiosInstance;
 
   // FUNCTION 생성자 함수
-  constructor(){
+  constructor(apiUrl: string | undefined){
       this.client = axios.create({
-        baseURL: process.env.NEXT_PUBLIC_API_URL,
+        baseURL: apiUrl,
         headers: {
           Accept: 'application/json',
-          'Accept-Language': "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-          'Accept-Charset': "application/x-www-form-urlencoded; charset=UTF-8",
           'Content-Type': 'application/json',
-          'Origin': 'https://developer.riotgames.com',
-          'X-Riot-Token': process.env.NEXT_PUBLIC_API_KEY
+          // 'Accept-Language': "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+          // 'Accept-Charset': "application/x-www-form-urlencoded; charset=UTF-8",
+          // 'Origin': 'https://developer.riotgames.com',
+          // 'X-Riot-Token': process.env.NEXT_PUBLIC_API_KEY
         },
       });
 
@@ -30,10 +30,10 @@ class AxiosClient {
 
   // FUNCTION method
   requestFullFilled(config: InternalAxiosRequestConfig) : InternalAxiosRequestConfig{
-    if (process.env.NEXT_PUBLIC_API_KEY){
-      config.headers.common['X-Riot-Token'] = process.env.NEXT_PUBLIC_API_KEY;
-      config.headers.common['Origin'] = 'https://developer.riotgames.com';
-    }
+    // if (process.env.NEXT_PUBLIC_API_KEY){
+    //   config.headers.common['X-Riot-Token'] = process.env.NEXT_PUBLIC_API_KEY;
+    //   config.headers.common['Origin'] = 'https://developer.riotgames.com';
+    // }
 
     // const access = localStorage.getItem('access');
 
@@ -57,6 +57,7 @@ class AxiosClient {
   }
 }
 
-const client = new AxiosClient().client;
+const client = new AxiosClient(process.env.NEXT_PUBLIC_BACK_URL).client;
+export const apiClient = new AxiosClient(process.env.NEXT_PUBLIC_API_URL).client;
 
 export default client;
