@@ -9,7 +9,11 @@ class AxiosClient {
         baseURL: process.env.NEXT_PUBLIC_API_URL,
         headers: {
           Accept: 'application/json',
+          'Accept-Language': "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+          'Accept-Charset': "application/x-www-form-urlencoded; charset=UTF-8",
           'Content-Type': 'application/json',
+          'Origin': 'https://developer.riotgames.com',
+          'X-Riot-Token': process.env.NEXT_PUBLIC_API_KEY
         },
       });
 
@@ -26,11 +30,16 @@ class AxiosClient {
 
   // FUNCTION method
   requestFullFilled(config: InternalAxiosRequestConfig) : InternalAxiosRequestConfig{
-    const access = localStorage.getItem('access');
-
-    if (access){
-      config.headers.set('Authorization', `Bearer ${access}`);
+    if (process.env.NEXT_PUBLIC_API_KEY){
+      config.headers.common['X-Riot-Token'] = process.env.NEXT_PUBLIC_API_KEY;
+      config.headers.common['Origin'] = 'https://developer.riotgames.com';
     }
+
+    // const access = localStorage.getItem('access');
+
+    // if (access){
+    //  config.headers.set('Authorization', `Bearer ${access}`);
+    //}
 
     return config;
   }

@@ -1,7 +1,7 @@
+import HomeContainer from "@/components/home/HomeContainer"
+
 export default function Home() {
   return (
-    <section>
-      hello world
-    </section>
+    <HomeContainer/>
   )
 }
