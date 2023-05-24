@@ -27,7 +27,7 @@ const HomeContainer = () => {
   
   const matchInfo = useQuery(['matchInfo', summonerInfo.data],
     async () => {
-      const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data.puuid}});
+      const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data?.data?.puuid}});
       return res.data;
     },
     {
@@ -61,7 +61,6 @@ const HomeContainer = () => {
   }, [summonerInfo.data]);
 
   useEffect(()=>{
-    console.log(matchInfo.isFetching);
     console.log(matchInfo.data);
   }, [matchInfo.data, matchInfo.isFetching]);
 
