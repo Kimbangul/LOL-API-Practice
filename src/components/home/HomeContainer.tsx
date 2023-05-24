@@ -24,15 +24,14 @@ const HomeContainer = () => {
         enabled: false,
       }
     );
-
   
-  const matchInfo = useQuery('matchInfo',
+  const matchInfo = useQuery(['matchInfo', summonerInfo.data],
     async () => {
-      console.log(summonerInfo.data?.data.puuid);
       const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data.puuid}});
       return res.data;
     },
     {
+      refetchOnWindowFocus: false,
       enabled: !!(summonerInfo.data?.data.puuid ? summonerInfo.data?.data.puuid : false),
     }
 );
@@ -44,7 +43,6 @@ const HomeContainer = () => {
   }
 
   const getResultView = useMemo(()=>{
-    console.log('view 변경')
     switch(summonerInfo.data?.status){
       case 200:
         return <ResultView data={summonerInfo.data.data}/>
@@ -59,14 +57,13 @@ const HomeContainer = () => {
 
 
   useEffect(()=>{
-    console.log('react-query data');
     console.log(summonerInfo.data);
   }, [summonerInfo.data]);
 
   useEffect(()=>{
-    console.log('match  data');
+    console.log(matchInfo.isFetching);
     console.log(matchInfo.data);
-  }, [matchInfo.data]);
+  }, [matchInfo.data, matchInfo.isFetching]);
 
   return(
    <>
