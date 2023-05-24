@@ -3,8 +3,9 @@ import {ResponseType} from '@/app/api/account/type';
 
 export interface InputViewPropsType {
   inputName: string;
-  setInputName: Dispatch<SetStateAction<string>>
-  getSummonerInfo: () => Promise<void>
+  setInputName: Dispatch<SetStateAction<string>>;
+  // getSummonerInfo: () => Promise<void>
+  getSummonerInfo: () => void
 }
 
 export interface ResultViewPropsType extends ResponseType {

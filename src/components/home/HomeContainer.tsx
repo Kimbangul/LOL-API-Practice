@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { AxiosResponse } from "axios";
+import { useQuery } from "react-query";
+
 import {ResponseType} from '@/app/api/account/type';
 import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
@@ -12,16 +14,24 @@ const HomeContainer = () => {
 
   // PARAM state
   const [inputName, setInputName] = useState('');
-  const [data, setData] = useState<ResponseType | null>(null);
 
+  // FUNCTION data fetch
+  const { isLoading, data, error, refetch } = useQuery(
+    'summonerInfo',
+    async () => {
+      const res = await client.get(`/api/account`, {params: {name: inputName}});
+      console.log(res);
+      return res.data;
+    },
+    {
+      enabled: false,
+    }
+  );
 
-  // FUNCTION search info
-  const getSummonerInfo = useCallback(async () => {
-    const summonerInfo = await client.get(`/api/account`, {params: {name: inputName}});
-    console.log(summonerInfo);
-    setData(summonerInfo.data);
-  }, [inputName]);
-  
+  // FUNCTION onclick events
+  const getSummonerInfo = () => {
+    refetch();
+  }
 
   const getResultView = useMemo(()=>{
     switch(data?.status){
