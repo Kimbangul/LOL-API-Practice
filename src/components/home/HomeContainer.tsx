@@ -16,7 +16,7 @@ const HomeContainer = () => {
   const [inputName, setInputName] = useState('');
 
   // FUNCTION data fetch
-  const { isLoading, data, error, refetch } = useQuery(
+  const { isFetching, data, error, refetch } = useQuery(
     'summonerInfo',
     async () => {
       const res = await client.get(`/api/account`, {params: {name: inputName}});
@@ -46,10 +46,21 @@ const HomeContainer = () => {
     }
   }, [data]);
 
+
+  useEffect(()=>{
+    console.log(isFetching)
+  }, [isFetching]);
+
   return(
    <>
     <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
-    {getResultView}
+    {
+      isFetching 
+      ?
+      <>Loading</>
+      :
+      getResultView
+    }
    </>
   )
 }
