@@ -23,10 +23,23 @@ const HomeContainer = () => {
   }, [inputName]);
   
 
+  const getResultView = useMemo(()=>{
+    switch(data?.status){
+      case 200:
+        return <ResultView data={data?.data}/>
+      case 404:
+        return (
+          <p>소환사 정보가 없습니다.</p>
+        )
+      default:
+        return null;
+    }
+  }, [data]);
+
   return(
    <>
     <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
-    <ResultView data={data?.data || undefined}/>
+    {getResultView}
    </>
   )
 }
