@@ -53,7 +53,8 @@ class AxiosClient {
   }
 
   responseError(e: AxiosError){
-    return new Promise((res, rej) => rej(e));
+    return e.response;
+    // return new Promise((res, rej) => rej(e));
   }
 }
 

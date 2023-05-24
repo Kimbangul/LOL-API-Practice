@@ -1,6 +1,6 @@
-import { HomeViewPropsType } from "@/components/home/HomeType";
+import { InputViewPropsType } from "@/components/home/HomeType";
 
-const HomeView : React.FC<HomeViewPropsType> = ({inputName, setInputName, getSummonerInfo}) => {
+const InputView : React.FC<InputViewPropsType> = ({inputName, setInputName, getSummonerInfo}) => {
   return(
     <div>
      <input type='text' placeholder="닉네임을 입력해주세요." value={inputName} onChange={(e)=>setInputName(e.target.value)}/>
@@ -9,4 +9,4 @@ const HomeView : React.FC<HomeViewPropsType> = ({inputName, setInputName, getSum
   )
 }
 
-export default HomeView;
+export default InputView;
