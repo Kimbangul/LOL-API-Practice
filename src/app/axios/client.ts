@@ -9,11 +9,7 @@ class AxiosClient {
         baseURL: apiUrl,
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
-          // 'Accept-Language': "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-          // 'Accept-Charset': "application/x-www-form-urlencoded; charset=UTF-8",
-          // 'Origin': 'https://developer.riotgames.com',
-          // 'X-Riot-Token': process.env.NEXT_PUBLIC_API_KEY
+          'Content-Type': 'application/json'
         },
       });
 
@@ -59,6 +55,7 @@ class AxiosClient {
 }
 
 const client = new AxiosClient(process.env.NEXT_PUBLIC_BACK_URL).client;
-export const apiClient = new AxiosClient(process.env.NEXT_PUBLIC_API_URL).client;
+export const krApiClient = new AxiosClient(process.env.NEXT_PUBLIC_KR_API_URL).client;
+export const asiaApiClient = new AxiosClient(process.env.NEXT_PUBLIC_ASIA_API_URL).client;
 
 export default client;

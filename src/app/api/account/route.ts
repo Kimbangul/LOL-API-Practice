@@ -1,4 +1,4 @@
-import {apiClient} from "@/app/axios/client";
+import {krApiClient} from "@/app/axios/client";
 import APIURL from "@/app/api/url.json";
 import { NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ export async function GET(req: Request, res: Response){
 
   const API_URL = `${APIURL["SUMMONER-V4"]}/${name}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`;
 
-  const data = await apiClient.get(API_URL);
+  const data = await krApiClient.get(API_URL);
 
   return NextResponse.json({
     data: data.data,

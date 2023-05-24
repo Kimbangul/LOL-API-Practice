@@ -1,9 +1,6 @@
 import { ResultViewPropsType } from "@/components/home/HomeType";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data}) => {
-  
-  console.log(data);
-  
   return(
     <ul>
       <li> 계정 ID : {data?.accountId}</li>
