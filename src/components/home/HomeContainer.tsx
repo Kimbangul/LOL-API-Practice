@@ -2,26 +2,31 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useQuery } from "react-query";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { globalPuuId } from "@/recoil/info";
 
-import {ResponseType} from '@/app/api/account/type';
+import { ResponseType } from '@/app/api/account/type';
 import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
 
 const HomeContainer = () => {
-
-
   // PARAM state
   const [inputName, setInputName] = useState('');
+  const [puuId, setPuuId] = useRecoilState<string>(globalPuuId);
 
   // FUNCTION data fetch
   const summonerInfo = useQuery('summonerInfo',
       async () => {
         const res = await client.get(`/api/account`, {params: {name: inputName}});
+        
         return res.data;
       },
       {
         enabled: false,
+        onSuccess: (data)=>{
+          setPuuId(data.data?.puuid);
+        }
       }
     );
   

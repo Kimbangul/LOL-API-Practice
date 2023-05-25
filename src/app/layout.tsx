@@ -12,10 +12,10 @@ export default function RootLayout({
 }) {
 
   return (
-     <ReactQueryProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </ReactQueryProvider>
+      <ReactQueryProvider>
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      </ReactQueryProvider>
   )
 }
