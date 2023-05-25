@@ -45,15 +45,27 @@ const HomeContainer = () => {
   const matchDetailInfo = useQuery(['matchDetail', selectedMatchId],
     async ()=> {
       const res = await client.get(`api/match/detail`, {params: {matchId: selectedMatchId}});
-      return res.data;
+      let nameList : string[] = [];
+
+      if (!( res.data?.data.metadata?.participants)) return nameList;
+
+      res.data?.data.metadata?.participants.forEach(async (el : string) => {
+        const res = await client.get(`/api/account`, {params: {puuid: el}});
+        console.log(el);
+        const name = res.data.data?.gameName;
+        // console.log(name);
+
+        nameList.push(name);  
+        console.log(nameList);
+      });
+
+      return nameList;
     },
     {
       refetchOnWindowFocus: false,
       enabled: !!selectedMatchId,
     }
   );
-
-
 
   // FUNCTION onclick events
   const getSummonerInfo = () => {
@@ -93,7 +105,7 @@ const HomeContainer = () => {
       <>
      <h4>같이 게임한 사람들</h4>
       <ul>
-      {matchDetailInfo.data?.data.metadata?.participants.map((el : string, idx: number)=>{
+      {matchDetailInfo.data?.map((el : string, idx: number)=>{
         return <li key={el + idx}>{el}</li>
       })}
       </ul>

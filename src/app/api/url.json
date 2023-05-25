@@ -1,5 +1,6 @@
 {
-  "SUMMONER-V4": "/lol/summoner/v4/summoners/by-name",
+  "SUMMONER-V4-NAME": "/lol/summoner/v4/summoners/by-name",
+  "ACCOUNT-V1": "/riot/account/v1/accounts/by-puuid",
   "MATCH-V5": "/lol/match/v5/matches/by-puuid",
   "MATCH-V5-DETAIL": "/lol/match/v5/matches"
 }
