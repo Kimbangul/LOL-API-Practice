@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { globalPuuId } from "@/recoil/info";
 
-import { ResponseType } from '@/app/api/account/type';
 import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
@@ -45,20 +44,20 @@ const HomeContainer = () => {
   const matchDetailInfo = useQuery(['matchDetail', selectedMatchId],
     async ()=> {
       const res = await client.get(`api/match/detail`, {params: {matchId: selectedMatchId}});
-      let nameList : string[] = [];
 
-      if (!( res.data?.data.metadata?.participants)) return nameList;
+      if (!( res.data?.data.metadata?.participants)) {
+        console.log(res.data);
+        return [];
+      }
 
-      res.data?.data.metadata?.participants.forEach(async (el : string) => {
+      const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
         const res = await client.get(`/api/account`, {params: {puuid: el}});
-        console.log(el);
         const name = res.data.data?.gameName;
-        // console.log(name);
 
-        nameList.push(name);  
-        console.log(nameList);
+        return name;
       });
 
+      console.log(nameList);
       return nameList;
     },
     {
@@ -66,6 +65,7 @@ const HomeContainer = () => {
       enabled: !!selectedMatchId,
     }
   );
+
 
   // FUNCTION onclick events
   const getSummonerInfo = () => {
@@ -86,10 +86,6 @@ const HomeContainer = () => {
     }
   }, [summonerInfo.data, matchInfo.data]);
 
-  useEffect(()=>{
-    console.log(matchDetailInfo.data);
-  }, [matchDetailInfo.data]);
-
   return(
    <>
     <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
@@ -101,7 +97,7 @@ const HomeContainer = () => {
       getResultView
     }
     {
-      selectedMatchId &&
+      matchDetailInfo.data &&
       <>
      <h4>같이 게임한 사람들</h4>
       <ul>

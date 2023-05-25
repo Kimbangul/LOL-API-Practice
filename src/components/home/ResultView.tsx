@@ -1,7 +1,6 @@
 import { ResultViewPropsType } from "@/components/home/HomeType";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, setSelectedMatchId}) => {
-  console.log(matchInfo);
   return(
     <>
     <ul>
