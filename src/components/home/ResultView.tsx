@@ -11,7 +11,7 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
       <li> 레벨 : {data?.summonerLevel}</li>
     </ul>
     <br />
-    <h3>최근 기록(20개)</h3>
+    <h3>최근 기록({matchInfo?.length}개)</h3>
     {
       matchInfo &&
       <ul>
