@@ -8,6 +8,7 @@ import { globalPuuId } from "@/recoil/info";
 import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
+import moment from "moment";
 
 const HomeContainer = () => {
   // PARAM state
@@ -45,11 +46,6 @@ const HomeContainer = () => {
     async ()=> {
       const res = await client.get(`api/match/detail`, {params: {matchId: selectedMatchId}});
 
-      if (!( res.data?.data.metadata?.participants)) {
-        console.log(res.data);
-        return [];
-      }
-
       const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
         const res = await client.get(`/api/account`, {params: {puuid: el}});
         const name = res.data.data?.gameName;
@@ -57,8 +53,12 @@ const HomeContainer = () => {
         return name;
       });
 
-      console.log(nameList);
-      return nameList;
+      const data = {
+          nameList : nameList,
+          time: moment(res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
+        };
+      
+      return data;
     },
     {
       refetchOnWindowFocus: false,
@@ -101,7 +101,7 @@ const HomeContainer = () => {
       <>
      <h4>같이 게임한 사람들</h4>
       <ul>
-      {matchDetailInfo.data?.map((el : string, idx: number)=>{
+      {matchDetailInfo.data?.nameList?.map((el : string, idx: number)=>{
         return <li key={el + idx}>{el}</li>
       })}
       </ul>
