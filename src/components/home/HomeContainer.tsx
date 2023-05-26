@@ -42,29 +42,42 @@ const HomeContainer = () => {
     }
   );
 
-  const matchDetailInfo = useQuery(['matchDetail', selectedMatchId],
+  const matchDetailInfo = useQuery(['matchDetail', matchInfo.data],
     async ()=> {
-      const res = await client.get(`api/match/detail`, {params: {matchId: selectedMatchId}});
+      console.log(matchInfo.data);
+      const dataList = await matchInfo.data.data?.map(async (el: string) => {
+        const res = await client.get(`api/match/detail`, {params: {matchId: el}});
 
-      const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
-        const res = await client.get(`/api/account`, {params: {puuid: el}});
-        const name = res.data.data?.gameName;
+        const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
+          const res = await client.get(`/api/account`, {params: {puuid: el}});
+          const name = await res.data.data?.gameName;
+  
+          return name;
+        });
 
-        return name;
+        const data = {
+            nameList : await nameList || [],
+            time: moment(await res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
+          };
+
+          console.log(data);
+        
+        return data;
       });
 
-      const data = {
-          nameList : nameList,
-          time: moment(res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
-        };
-      
-      return data;
+      console.log(dataList);
+
+      return dataList;
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!selectedMatchId,
+      enabled: !!matchInfo.data,
     }
   );
+
+  useEffect(()=>{
+    console.log(matchDetailInfo.data);
+  }, [matchDetailInfo.data]);
 
 
   // FUNCTION onclick events
@@ -96,7 +109,7 @@ const HomeContainer = () => {
       :
       getResultView
     }
-    {
+    {/* {
       matchDetailInfo.data &&
       <>
      <h4>같이 게임한 사람들</h4>
@@ -106,7 +119,7 @@ const HomeContainer = () => {
       })}
       </ul>
       </>
-    }
+    } */}
    </>
   )
 }

@@ -15,14 +15,14 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
     {
       matchInfo &&
       <ul>
-        {
+        {/* {
           matchInfo.map((el) => {
             return(
               
               <li key={el} onClick={setSelectedMatchId ? () => setSelectedMatchId(el) : ()=>{return;}}>{el}</li>
             )
           })
-        }
+        } */}
       </ul>
     }
     </>
