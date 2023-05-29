@@ -34,7 +34,8 @@ const HomeContainer = () => {
   const matchInfo = useQuery(['matchInfo', summonerInfo.data],
     async () => {
       const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data?.data?.puuid}});
-      return res.data;
+      console.log(res);
+      return res.data || [];
     },
     {
       refetchOnWindowFocus: false,
@@ -44,30 +45,33 @@ const HomeContainer = () => {
 
   const matchDetailInfo = useQuery(['matchDetail', matchInfo.data],
     async ()=> {
-      console.log(matchInfo.data);
       const dataList = await matchInfo.data.data?.map(async (el: string) => {
         const res = await client.get(`api/match/detail`, {params: {matchId: el}});
 
+        console.log(res);
+
         const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
           const res = await client.get(`/api/account`, {params: {puuid: el}});
+          console.log(res);
           const name = await res.data.data?.gameName;
+          
+          const result = await name;
   
-          return name;
+          return result;
         });
 
         const data = {
             nameList : await nameList || [],
             time: moment(await res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
           };
-
-          console.log(data);
         
+          console.log(data);
         return data;
       });
 
-      console.log(dataList);
+      // console.log(dataList);
 
-      return dataList;
+      return await dataList;
     },
     {
       refetchOnWindowFocus: false,
@@ -89,7 +93,7 @@ const HomeContainer = () => {
   const getResultView = useMemo(()=>{
     switch(summonerInfo.data?.status){
       case 200:
-        return <ResultView data={summonerInfo.data.data} matchInfo={matchInfo.data?.data} setSelectedMatchId={setSelectedMatchId}/>
+        return <ResultView data={summonerInfo.data.data} matchInfo={matchDetailInfo.data} setSelectedMatchId={setSelectedMatchId}/>
       case 404:
         return (
           <p>소환사 정보가 없습니다.</p>
@@ -97,7 +101,7 @@ const HomeContainer = () => {
       default:
         return '검색할 값을 입력해주세요!';
     }
-  }, [summonerInfo.data, matchInfo.data]);
+  }, [summonerInfo.data, matchDetailInfo.data]);
 
   return(
    <>
