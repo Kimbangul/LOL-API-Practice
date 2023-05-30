@@ -34,7 +34,6 @@ const HomeContainer = () => {
   const matchInfo = useQuery(['matchInfo', summonerInfo.data],
     async () => {
       const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data?.data?.puuid}});
-      console.log(res);
       return res.data || [];
     },
     {
@@ -48,11 +47,8 @@ const HomeContainer = () => {
       const dataList = await matchInfo.data.data?.map(async (el: string) => {
         const res = await client.get(`api/match/detail`, {params: {matchId: el}});
 
-        console.log(res);
-
         const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
           const res = await client.get(`/api/account`, {params: {puuid: el}});
-          console.log(res);
           const name = await res.data.data?.gameName;
           
           const result = await name;
@@ -61,17 +57,16 @@ const HomeContainer = () => {
         });
 
         const data = {
-            nameList : await nameList || [],
+            nameList : await Promise.all(nameList) || [],
             time: moment(await res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
           };
-        
+
           console.log(data);
+        
         return data;
       });
 
-      // console.log(dataList);
-
-      return await dataList;
+      return await Promise.all(dataList);
     },
     {
       refetchOnWindowFocus: false,
@@ -93,7 +88,7 @@ const HomeContainer = () => {
   const getResultView = useMemo(()=>{
     switch(summonerInfo.data?.status){
       case 200:
-        return <ResultView data={summonerInfo.data.data} matchInfo={matchDetailInfo.data} setSelectedMatchId={setSelectedMatchId}/>
+        return <ResultView data={summonerInfo.data.data} matchInfo={matchDetailInfo} setSelectedMatchId={setSelectedMatchId}/>
       case 404:
         return (
           <p>소환사 정보가 없습니다.</p>

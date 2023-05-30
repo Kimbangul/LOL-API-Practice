@@ -1,4 +1,4 @@
-import { ResultViewPropsType } from "@/components/home/HomeType";
+import { ResultViewPropsType, DetailResultType } from "@/components/home/HomeType";
 import { useEffect } from "react";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, setSelectedMatchId}) => {
@@ -17,15 +17,15 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
       <li> 레벨 : {data?.summonerLevel}</li>
     </ul>
     <br />
-    <h3>최근 기록({matchInfo?.length}개)</h3>
+    <h3>최근 기록({matchInfo?.data?.length}개)</h3>
     {
       matchInfo &&
       <ul>
         {
-          matchInfo.map((el) => {
+          matchInfo?.data?.map((el: DetailResultType, idx: number) => {
             return(
               
-              <li key={el.time}>{el.time}</li>
+              <li key={el.time + idx}>{el.time}</li>
             )
           })
         }
