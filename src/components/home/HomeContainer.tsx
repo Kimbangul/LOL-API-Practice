@@ -9,6 +9,7 @@ import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
 import moment from "moment";
+import { DetailResultType } from "./HomeType";
 
 const HomeContainer = () => {
   // PARAM state
@@ -43,7 +44,7 @@ const HomeContainer = () => {
   );
 
   const matchDetailInfo = useQuery(['matchDetail', matchInfo.data],
-    async ()=> {
+    async () => {
       const dataList = await matchInfo.data.data?.map(async (el: string) => {
         const res = await client.get(`api/match/detail`, {params: {matchId: el}});
 
@@ -57,11 +58,9 @@ const HomeContainer = () => {
         });
 
         const data = {
-            nameList : await Promise.all(nameList) || [],
+            nameList : await Promise.allSettled(nameList),
             time: moment(await res.data?.data.info?.gameStartTimestamp).format('YYYY.MM.DD HH:mm:ss')
           };
-
-          console.log(data);
         
         return data;
       });

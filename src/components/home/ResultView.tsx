@@ -6,6 +6,10 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
     console.log(matchInfo);
   }, [matchInfo])
 
+  useEffect(()=>{
+    console.log(matchInfo?.isFetching);
+  }, [matchInfo?.isFetching])
+
 
   return(
     <>
@@ -24,7 +28,6 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
         {
           matchInfo?.data?.map((el: DetailResultType, idx: number) => {
             return(
-              
               <li key={el.time + idx}>{el.time}</li>
             )
           })
