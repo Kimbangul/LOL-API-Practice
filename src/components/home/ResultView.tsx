@@ -1,14 +1,10 @@
-import { ResultViewPropsType, DetailResultType } from "@/components/home/HomeType";
+import { ResultViewPropsType, DetailResultType, nameListType } from "@/components/home/HomeType";
 import { useEffect } from "react";
 
-const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, setSelectedMatchId}) => {
+const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading, setSelectedMatchId}) => {
   useEffect(()=>{
     console.log(matchInfo);
   }, [matchInfo])
-
-  useEffect(()=>{
-    console.log(matchInfo?.isFetching);
-  }, [matchInfo?.isFetching])
 
 
   return(
@@ -21,18 +17,37 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, s
       <li> 레벨 : {data?.summonerLevel}</li>
     </ul>
     <br />
-    <h3>최근 기록({matchInfo?.data?.length}개)</h3>
     {
-      matchInfo &&
+      isMatchLoading === 'loading' || isMatchLoading === 'idle'
+      ?
+      <p>로딩중</p>
+      :
+      <>
+      <h3>최근 기록({matchInfo?.length}개)</h3>
+      {
+        matchInfo &&
       <ul>
         {
-          matchInfo?.data?.map((el: DetailResultType, idx: number) => {
+          matchInfo.map((el: DetailResultType, idx: number) => {
             return(
-              <li key={el.time + idx}>{el.time}</li>
+              <li key={el.time + idx}>
+                <h4>{el.time}</h4>
+                <br />
+                <h5>플레이어 목록</h5>
+                <ul>
+                  {
+                    el.nameList.map((name: nameListType, idx:number) => {
+                      return <li key={name.value + idx}>{name.value}</li>
+                    })
+                  }
+                </ul>
+              </li>
             )
           })
         }
       </ul>
+      }
+      </>
     }
     </>
   )

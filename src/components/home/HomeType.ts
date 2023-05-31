@@ -9,12 +9,20 @@ export interface InputViewPropsType {
 }
 
 export interface DetailResultType {
-    nameList: string[];
+    nameList: nameListType[];
     time: string;
   }
-  export interface ResultViewPropsType extends ResponseType {
-  // matchInfo: DetailResultType[];
-  matchInfo: UseQueryResult<DetailResultType[]>
+
+  export interface nameListType {
+    status: string;
+    value: string;
+  }
+  
+export interface ResultViewPropsType extends ResponseType {
+  matchInfo: DetailResultType[];
+  //matchInfo: UseQueryResult<DetailResultType[]>;
+  isMatchLoading: "idle" | "error" | "loading" | "success";
   setSelectedMatchId: Dispatch<SetStateAction<string|null>>
 }
+
 

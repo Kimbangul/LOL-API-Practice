@@ -87,7 +87,14 @@ const HomeContainer = () => {
   const getResultView = useMemo(()=>{
     switch(summonerInfo.data?.status){
       case 200:
-        return <ResultView data={summonerInfo.data.data} matchInfo={matchDetailInfo} setSelectedMatchId={setSelectedMatchId}/>
+        return (
+          <ResultView 
+            data={summonerInfo.data.data}
+            matchInfo={matchDetailInfo.data} 
+            isMatchLoading={matchDetailInfo.status}
+            setSelectedMatchId={setSelectedMatchId}
+          />
+        )
       case 404:
         return (
           <p>소환사 정보가 없습니다.</p>
@@ -95,7 +102,7 @@ const HomeContainer = () => {
       default:
         return '검색할 값을 입력해주세요!';
     }
-  }, [summonerInfo.data, matchDetailInfo.data]);
+  }, [summonerInfo.data, matchDetailInfo]);
 
   return(
    <>
@@ -107,17 +114,6 @@ const HomeContainer = () => {
       :
       getResultView
     }
-    {/* {
-      matchDetailInfo.data &&
-      <>
-     <h4>같이 게임한 사람들</h4>
-      <ul>
-      {matchDetailInfo.data?.nameList?.map((el : string, idx: number)=>{
-        return <li key={el + idx}>{el}</li>
-      })}
-      </ul>
-      </>
-    } */}
    </>
   )
 }
