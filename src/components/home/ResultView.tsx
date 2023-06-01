@@ -1,11 +1,6 @@
 import { ResultViewPropsType, DetailResultType, nameListType } from "@/components/home/HomeType";
-import { useEffect } from "react";
 
-const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading, setSelectedMatchId}) => {
-  useEffect(()=>{
-    console.log(matchInfo);
-  }, [matchInfo])
-
+const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading}) => {
 
   return(
     <>

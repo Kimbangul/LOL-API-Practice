@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import {ResponseType} from '@/app/api/account/type';
-import { UseQueryResult } from "react-query";
 
 export interface InputViewPropsType {
   inputName: string;
@@ -22,7 +21,6 @@ export interface ResultViewPropsType extends ResponseType {
   matchInfo: DetailResultType[];
   //matchInfo: UseQueryResult<DetailResultType[]>;
   isMatchLoading: "idle" | "error" | "loading" | "success";
-  setSelectedMatchId: Dispatch<SetStateAction<string|null>>
 }
 
 

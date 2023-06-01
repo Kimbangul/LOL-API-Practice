@@ -9,12 +9,10 @@ import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
 import moment from "moment";
-import { DetailResultType } from "./HomeType";
 
 const HomeContainer = () => {
   // PARAM state
   const [inputName, setInputName] = useState('');
-  const [selectedMatchId, setSelectedMatchId] = useState<null|string>(null);
   const [puuId, setPuuId] = useRecoilState<string>(globalPuuId);
 
   // FUNCTION data fetch
@@ -32,6 +30,7 @@ const HomeContainer = () => {
       }
     );
   
+  /** 경기 ID */
   const matchInfo = useQuery(['matchInfo', summonerInfo.data],
     async () => {
       const res = await client.get(`/api/match`, {params: {puuid: summonerInfo.data?.data?.puuid}});
@@ -43,6 +42,7 @@ const HomeContainer = () => {
     }
   );
 
+  /** 시작 시각, 플레이어 */
   const matchDetailInfo = useQuery(['matchDetail', matchInfo.data],
     async () => {
       const dataList = await matchInfo.data.data?.map(async (el: string) => {
@@ -51,10 +51,8 @@ const HomeContainer = () => {
         const nameList = await res.data?.data.metadata?.participants.map(async (el : string) => {
           const res = await client.get(`/api/account`, {params: {puuid: el}});
           const name = await res.data.data?.gameName;
-          
-          const result = await name;
-  
-          return result;
+          console.log(name);
+          return name;
         });
 
         const data = {
@@ -81,9 +79,9 @@ const HomeContainer = () => {
   // FUNCTION onclick events
   const getSummonerInfo = () => {
     summonerInfo.refetch();
-    setSelectedMatchId(null);
   }
 
+  // FUNCTION 검색 결과 조회
   const getResultView = useMemo(()=>{
     switch(summonerInfo.data?.status){
       case 200:
@@ -92,7 +90,6 @@ const HomeContainer = () => {
             data={summonerInfo.data.data}
             matchInfo={matchDetailInfo.data} 
             isMatchLoading={matchDetailInfo.status}
-            setSelectedMatchId={setSelectedMatchId}
           />
         )
       case 404:
