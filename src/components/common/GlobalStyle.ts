@@ -30,7 +30,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
     font-size: 1.4rem;
     min-width: 280px;
-    
+    background-color: #21D4FD;
+    background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: sans-serif;

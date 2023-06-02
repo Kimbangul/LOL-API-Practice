@@ -2,13 +2,15 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
+import moment from "moment";
 import { useRecoilState } from "recoil";
 import { globalPuuId } from "@/recoil/info";
 
 import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
-import moment from "moment";
+import Home from "@/components/home/HomeStyle";
+
 
 const HomeContainer = () => {
   // PARAM state
@@ -102,16 +104,18 @@ const HomeContainer = () => {
   }, [summonerInfo.data, matchDetailInfo]);
 
   return(
-   <>
-    <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
-    {
-      summonerInfo.isFetching 
-      ?
-      <>Loading</>
-      :
-      getResultView
-    }
-   </>
+    <Home.Wrapper>
+       <Home.Container>
+        <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
+          {
+            summonerInfo.isFetching 
+            ?
+            <>Loading</>
+            :
+            getResultView
+          }
+      </Home.Container>
+    </Home.Wrapper>
   )
 }
 
