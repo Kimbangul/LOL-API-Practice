@@ -10,6 +10,7 @@ import client from "@/app/axios/client";
 import InputView from "@/components/home/InputView";
 import ResultView from "@/components/home/ResultView";
 import Home from "@/components/home/HomeStyle";
+import LoadingView from "@/components/common/loading/LoadingView";
 
 
 const HomeContainer = () => {
@@ -106,11 +107,12 @@ const HomeContainer = () => {
   return(
     <Home.Wrapper>
        <Home.Container>
+       <LoadingView />
         <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
           {
             summonerInfo.isFetching 
             ?
-            <>Loading</>
+            <LoadingView />
             :
             getResultView
           }

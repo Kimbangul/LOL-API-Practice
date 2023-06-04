@@ -1,4 +1,5 @@
 import { ResultViewPropsType, DetailResultType, nameListType } from "@/components/home/HomeType";
+import LoadingView from "@/components/common/loading/LoadingView";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading}) => {
 
@@ -15,7 +16,7 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, i
     {
       isMatchLoading === 'loading' || isMatchLoading === 'idle'
       ?
-      <p>로딩중</p>
+      <LoadingView />
       :
       <>
       <h3>최근 기록({matchInfo?.length}개)</h3>
