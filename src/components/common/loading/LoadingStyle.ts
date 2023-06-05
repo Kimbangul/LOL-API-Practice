@@ -49,6 +49,21 @@ const Loading = {
     letter-spacing: 0.1rem;
     margin-top: 1.6rem;
   `,
+  Ellipsis: styled.span<{idx: number}>`
+    @keyframes ellipsisWord {
+      0%{
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+    animation-name: ellipsisWord;
+    animation-duration: 0.9s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-delay: ${({idx}) => idx * 0.3}s;
+  `,
 }
 
 export default Loading;
