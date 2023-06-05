@@ -23,6 +23,12 @@ const Home = {
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   `,
+  PlaceHolder: styled.p`
+    text-align: center;
+    margin-top: 4rem;
+    color: #ffffffaa;
+    letter-spacing: 0.1rem;
+  `
 }
 
 export default Home;

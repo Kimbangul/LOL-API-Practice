@@ -97,17 +97,16 @@ const HomeContainer = () => {
         )
       case 404:
         return (
-          <p>소환사 정보가 없습니다.</p>
+          <Home.PlaceHolder>소환사 정보가 없습니다.</Home.PlaceHolder>
         )
       default:
-        return '검색할 값을 입력해주세요!';
+        return <Home.PlaceHolder>검색할 값을 입력해주세요!</Home.PlaceHolder>;
     }
   }, [summonerInfo.data, matchDetailInfo]);
 
   return(
     <Home.Wrapper>
        <Home.Container>
-       <LoadingView />
         <InputView inputName={inputName} setInputName={setInputName} getSummonerInfo={getSummonerInfo}/>
           {
             summonerInfo.isFetching 

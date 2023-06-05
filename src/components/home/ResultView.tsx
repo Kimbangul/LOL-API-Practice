@@ -1,32 +1,33 @@
 import { ResultViewPropsType, DetailResultType, nameListType } from "@/components/home/HomeType";
 import LoadingView from "@/components/common/loading/LoadingView";
+import { Info, Record } from "@/components/home/ResultStyle";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading}) => {
 
   return(
     <>
-    <ul>
-      <li> 계정 ID : {data?.accountId}</li>
-      <li> 암호화 ID : {data?.id}</li>
-      <li> 이름 : {data?.name}</li>
-      <li> puuid : {data?.puuid}</li>
-      <li> 레벨 : {data?.summonerLevel}</li>
-    </ul>
-    <br />
+    <Info.List>
+      <Info.Item> 계정 ID : {data?.accountId}</Info.Item>
+      {/* <Info.Item> 암호화 ID : {data?.id}</Info.Item> */}
+      <Info.Item> 이름 : {data?.name}</Info.Item>
+      {/* <Info.Item> puuid : {data?.puuid}</Info.Item> */}
+      <Info.Item> 레벨 : {data?.summonerLevel}</Info.Item>
+    </Info.List>
+    <Record.Container>
     {
       isMatchLoading === 'loading' || isMatchLoading === 'idle'
       ?
       <LoadingView />
       :
       <>
-      <h3>최근 기록({matchInfo?.length}개)</h3>
+      <Record.Title>최근 기록({matchInfo?.length}개)</Record.Title>
       {
         matchInfo &&
-      <ul>
+      <Record.List>
         {
           matchInfo.map((el: DetailResultType, idx: number) => {
             return(
-              <li key={el.time + idx}>
+              <Record.Item key={el.time + idx}>
                 <h4>{el.time}</h4>
                 <br />
                 <h5>플레이어 목록</h5>
@@ -37,14 +38,15 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, i
                     })
                   }
                 </ul>
-              </li>
+              </Record.Item>
             )
           })
         }
-      </ul>
+      </Record.List>
       }
       </>
     }
+    </Record.Container>
     </>
   )
 }
