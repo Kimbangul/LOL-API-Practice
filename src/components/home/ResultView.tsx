@@ -28,16 +28,15 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, i
           matchInfo.map((el: DetailResultType, idx: number) => {
             return(
               <Record.Item key={el.time + idx} colorKey={Math.floor(Math.random() * COLOR_LIST.length)}>
-                <h4>{el.time}</h4>
-                <br />
-                <h5>플레이어 목록</h5>
-                <ul>
+                <Record.Time>{el.time}</Record.Time>
+                <Record.SubTitle>플레이어 목록</Record.SubTitle>
+                <Record.Player.List>
                   {
                     el.nameList.map((name: nameListType, idx:number) => {
-                      return <li key={name.value + idx}>{name.value}</li>
+                      return <Record.Player.Item key={name.value + idx}>{name.value}</Record.Player.Item>
                     })
                   }
-                </ul>
+                </Record.Player.List>
               </Record.Item>
             )
           })

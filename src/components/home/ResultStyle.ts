@@ -41,6 +41,7 @@ export const Record = {
   Title: styled.h3`
     color: #fff;
     text-align: center;
+    text-shadow: 0px 0px 1rem pink;
   `,
   List: styled.ul`
     display: grid;
@@ -64,4 +65,28 @@ export const Record = {
     border-bottom: 0.1rem solid rgba(0,0,0,0.08); */
     backdrop-filter: blur(2rem);
   `,
+  Time: styled.h4`
+    color: #fff;
+    text-shadow: 0px 0px 1rem rgba(0,0,0,0.4);
+    font-size: 1.6rem;
+  `,
+  SubTitle: styled.h5`
+    color: #fff;
+    text-shadow: 0px 0px 1rem rgba(0,0,0,0.4);
+    font-size: 1.6rem;
+    margin-top: 0.8rem;
+  `,
+  Player: {
+    List: styled.ul`
+    margin-top: 0.8rem;
+    `,
+    Item: styled.li`
+      margin-top: 0.4rem;
+      color: #fff;
+      text-shadow: 0px 0px 1rem rgba(0,0,0,0.4);
+      &:first-child{
+        margin-top: 0;
+      }
+    `
+  }
 }
