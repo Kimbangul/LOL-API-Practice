@@ -1,6 +1,6 @@
 import { ResultViewPropsType, DetailResultType, nameListType } from "@/components/home/HomeType";
 import LoadingView from "@/components/common/loading/LoadingView";
-import { Info, Record } from "@/components/home/ResultStyle";
+import { Info, Record, COLOR_LIST } from "@/components/home/ResultStyle";
 
 const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, isMatchLoading}) => {
 
@@ -27,7 +27,7 @@ const ResultView : React.FC<Partial<ResultViewPropsType>> = ({data, matchInfo, i
         {
           matchInfo.map((el: DetailResultType, idx: number) => {
             return(
-              <Record.Item key={el.time + idx}>
+              <Record.Item key={el.time + idx} colorKey={Math.floor(Math.random() * COLOR_LIST.length)}>
                 <h4>{el.time}</h4>
                 <br />
                 <h5>플레이어 목록</h5>
